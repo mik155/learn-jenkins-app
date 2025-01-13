@@ -8,7 +8,7 @@ pipeline {
         stage('hello-from-gh-repo') {
             agent {
                 docker {
-                    image 'node:16-alpine'
+                    image 'node:latest'
                     reuseNode true
                 }
             }
@@ -24,7 +24,7 @@ pipeline {
         stage('test') {
             agent {
                 docker {
-                    image 'node:16-alpine'
+                    image 'node:latest'
                  }
             }
             steps {
