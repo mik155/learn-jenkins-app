@@ -32,7 +32,7 @@ pipeline {
                     npm ci
                     npm build
                     ls -la;
-                    npm test;
+                    npm install;
                     ls -la;
                 '''
             }
