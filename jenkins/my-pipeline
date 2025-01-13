@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    environment {
+        MY_SECRET = 'IS MY DESIRE'
+    }
+
+    stages {
+        stage('hello-from-gh-repo') {
+            steps {
+                sh 'echo "hello world"'
+            }
+        }
+    }
+  
+}
