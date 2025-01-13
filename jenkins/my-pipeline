@@ -29,7 +29,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install;
+                
+                    npm ci;
                     npm build
                     ls -la;
                     ls -la;
