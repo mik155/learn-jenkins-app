@@ -1,42 +1,46 @@
 pipeline {
     agent any
-    environment {
-        MY_SECRET = 'IS MY DESIRE'
-    }
 
     stages {
-        stage('hello-from-gh-repo') {
+        stage('Build') {
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'node:18-alpine'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    ls -la;
-                    npm --version;
-                    ls -la;
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
                 '''
             }
         }
 
-        stage('test') {
+        stage('Test') {
             agent {
                 docker {
-                    image 'node:latest'
-                 }
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
             }
+
             steps {
                 sh '''
-                
-                    npm ci;
-                    npm build
-                    ls -la;
-                    ls -la;
+                    test -f build/index.html
+                    npm test
                 '''
             }
         }
     }
-  
+
+    post {
+        always {
+            junit 'test-results/junit.xml'
+        }
+    }
 }
