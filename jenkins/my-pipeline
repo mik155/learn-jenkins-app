@@ -14,9 +14,9 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -la
-                    npm --version
-                    ls -la
+                    ls -la;
+                    npm --version;
+                    ls -la;
                 '''
             }
         }
@@ -30,8 +30,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm test
-                    ls -la
+                    npm test;
+                    ls -la;
                 '''
             }
         }
