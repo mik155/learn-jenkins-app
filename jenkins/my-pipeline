@@ -30,6 +30,8 @@ pipeline {
             }
             steps {
                 sh '''
+                    npm ci
+                    npm build
                     ls -la;
                     npm test;
                     ls -la;
