@@ -59,7 +59,7 @@ pipeline {
         stage ('Deploy') {
             agent {
                 docker {
-                    image 'node:latest',
+                    image 'node:latest'
                     reusableNode true
                 }
             }
