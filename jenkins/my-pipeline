@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        NETLIFY_SITE_ID = '0d554619-e4f2-4164-b531-cf2fccde7072'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
@@ -71,7 +72,6 @@ pipeline {
                 sh 'npm install --save-dev netlify-cli'
                 sh 'node_modules/.bin/netlify --version'
                 sh 'node_modules/.bin/netlify status'
-
             }
         }
         
