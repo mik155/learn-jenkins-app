@@ -100,16 +100,15 @@ pipeline {
                 sh 'node_modules/.bin/netlify status'
                 sh '''
                     node_modules/.bin/netlify deploy --dir=build --prod --json > result
-                    node_modules/.bin/node-jq '.deploy_url' ./result
                 '''
+                script {
+                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq '.deploy_url' ./result | tr -d \'"\' ')
+                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq '.deploy_url' ./result')
+                }
             }
         }
 
         stage('PROD E2E') {
-            environment {
-                CI_ENVIRONMENT_URL = 'https://peaceful-youtiao-efc629.netlify.app/'
-            }
-
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -118,6 +117,7 @@ pipeline {
             }
 
             steps {
+                echo 'PROD_URL ${env.CI_ENVIRONMENT_URL}, ${env.PROD_URL}'
                 sh 'sleep 5'
                 sh 'npx playwright test --reporter=html'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PW PROD HTML Report', reportTitles: '', useWrapperFileDirectly: true])
