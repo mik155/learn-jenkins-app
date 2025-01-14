@@ -51,6 +51,7 @@ pipeline {
                     }
 
                     steps {
+                        echo "$REACT_APP_VERSION"
                         sh 'npm install serve'
                         sh 'node_modules/.bin/serve -s build &'
                         sh 'sleep 10'
