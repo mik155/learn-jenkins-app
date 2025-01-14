@@ -61,7 +61,32 @@ pipeline {
             }
         }
 
-        stage ('Deploy') {
+        stage ('Deploy DEV') {
+            agent {
+                docker {
+                    image 'node:latest'
+                    reuseNode true
+                }
+            }
+            steps {
+                echo 'Felemele'
+                sh 'npm install --save-dev netlify-cli'
+                sh 'node_modules/.bin/netlify --version'
+                sh 'node_modules/.bin/netlify status'
+                sh 'node_modules/.bin/netlify deploy --dir=build'
+            }
+        }
+
+        stage('Approve') {
+            agent any
+            steps {
+                timeout( time: 1, unit: 'MINUTES') {
+                    input 'Deploy ?'
+                }
+            }
+        }
+
+        stage ('Deploy PROD') {
             agent {
                 docker {
                     image 'node:latest'
