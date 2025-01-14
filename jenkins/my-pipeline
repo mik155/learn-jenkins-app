@@ -46,7 +46,7 @@ pipeline {
                 sh 'node_modules/.bin/serve -s build &'
                 sh 'sleep 10'
                 sh 'npx playwright test --reporter=html'
-
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright_test', reportFiles: 'index.html', reportName: 'PW HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             }
         }
     }
