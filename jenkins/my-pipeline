@@ -19,35 +19,40 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node:latest'
-                    reuseNode true
+        parallel ('Run tests') {
+            stage('Test') {
+                agent {
+                    docker {
+                        image 'node:latest'
+                        reuseNode true
+                    }
+                }
+
+                steps {
+                    sh 'test -f build/index.html'
+                    sh 'npm test'
                 }
             }
 
-            steps {
-                sh 'test -f build/index.html'
-                sh 'npm test'
-            }
-        }
+            stage('E2E') {
+                agent {
+                    docker {
+                        image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                        reuseNode true
+                    }
+                }
 
-        stage('E2E') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    reuseNode true
+                steps {
+                    sh 'npm install serve'
+                    sh 'node_modules/.bin/serve -s build &'
+                    sh 'sleep 10'
+                    sh 'npx playwright test --reporter=html'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PW HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
 
-            steps {
-                sh 'npm install serve'
-                sh 'node_modules/.bin/serve -s build &'
-                sh 'sleep 10'
-                sh 'npx playwright test --reporter=html'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PW HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-            }
         }
+
+
     }
 }
