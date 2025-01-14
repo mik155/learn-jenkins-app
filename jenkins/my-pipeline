@@ -55,6 +55,20 @@ pipeline {
 
             }
         }
+
+        stage ('Deploy') {
+            agent {
+                docker {
+                    image 'node:latest',
+                    reusableNode true
+                }
+            }
+            steps {
+                sh 'npm install --save-dev netlify-cli'
+                sh 'node_modules/.bin/netlify --version'
+
+            }
+        }
         
 
     }
