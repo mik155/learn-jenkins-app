@@ -102,8 +102,8 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --prod --json > result
                 '''
                 script {
-                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq \'.deploy_url\' ./result | tr -d \'"\' ')
-                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq \'.deploy_url\' ./result')
+                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq \'.deploy_url\' ./result | tr -d \'"\' ', returnStdout)
+                    env.CI_ENVIRONMENT_URL = sh(script: 'node_modules/.bin/node-jq \'.deploy_url\' ./result', returnStdout)
                 }
             }
         }
