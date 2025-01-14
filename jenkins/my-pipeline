@@ -72,9 +72,8 @@ pipeline {
                 sh 'npm install --save-dev netlify-cli'
                 sh 'node_modules/.bin/netlify --version'
                 sh 'node_modules/.bin/netlify status'
+                sh 'node_modules/.bin/deploy --dir=build --prod'
             }
         }
-        
-
     }
 }
