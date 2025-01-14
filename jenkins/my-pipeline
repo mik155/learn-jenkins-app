@@ -117,7 +117,8 @@ pipeline {
             }
 
             steps {
-                echo 'PROD_URL ${env.CI_ENVIRONMENT_URL}, ${env.PROD_URL}'
+                echo "PROD_URL ${env.CI_ENVIRONMENT_URL}, ${env.PROD_URL}"
+                echo "PROD_URL $CI_ENVIRONMENT_URL"
                 sh 'sleep 5'
                 sh 'npx playwright test --reporter=html'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PW PROD HTML Report', reportTitles: '', useWrapperFileDirectly: true])
