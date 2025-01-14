@@ -60,7 +60,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:latest'
-                    reusableNode true
+                    reuseNode true
                 }
             }
             steps {
