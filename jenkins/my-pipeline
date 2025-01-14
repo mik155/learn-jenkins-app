@@ -69,6 +69,7 @@ pipeline {
                 }
             }
             steps {
+                echo 'Felemele'
                 sh 'npm install --save-dev netlify-cli'
                 sh 'node_modules/.bin/netlify --version'
                 sh 'node_modules/.bin/netlify status'
