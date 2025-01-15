@@ -1,2 +1,0 @@
-FROM node:latest
-RUN npm install --save-dev netlify-cli
