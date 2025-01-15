@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    environment {
+
+    }
+
+    stages {
+        stage('Check AWS CLI') {
+            agent {
+                docker {
+                    image: 'amazon/aws-cli'
+                }
+            }
+            steps {
+                sh 'aws --version'
+            }
+        }
+    }
+}
