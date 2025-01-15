@@ -8,10 +8,19 @@ pipeline {
     }
 
     stages {
+        stage('Docker') {
+            agent any
+
+            steps {
+                sh 'docker build -t my-node -f DockerNode .'
+                sh 'docker build -t my-pw -f DockerPw .'
+            }
+        }
+
         stage('Build') {
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'my-node'
                     reuseNode true
                 }
             }
@@ -31,7 +40,7 @@ pipeline {
                 stage('JUNIT Test') {
                     agent {
                         docker {
-                            image 'node:latest'
+                            image 'my-node'
                             reuseNode true
                         }
                     }
@@ -45,14 +54,13 @@ pipeline {
                 stage('E2E') {
                     agent {
                         docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            image 'my-pw'
                             reuseNode true
                         }
                     }
 
                     steps {
                         echo "$REACT_APP_VERSION"
-                        sh 'npm install serve'
                         sh 'node_modules/.bin/serve -s build &'
                         sh 'sleep 10'
                         sh 'npx playwright test --reporter=html'
@@ -66,13 +74,12 @@ pipeline {
         stage ('Deploy DEV') {
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'my-node'
                     reuseNode true
                 }
             }
             steps {
                 echo 'Felemele'
-                sh 'npm install --save-dev netlify-cli'
                 sh 'node_modules/.bin/netlify --version'
                 sh 'node_modules/.bin/netlify status'
                 sh 'node_modules/.bin/netlify deploy --dir=build'
@@ -113,7 +120,7 @@ pipeline {
         stage('PROD E2E') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-pw'
                     reuseNode true
                 }
             }
