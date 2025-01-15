@@ -10,16 +10,17 @@ pipeline {
                 docker {
                     image 'ubuntu:latest'
                     reuseNode true
+                    args '-u root'
                 }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'aws-cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
-                        sudo apt update
-                        sudo apt install curl
+                         apt update
+                         apt install curl
                         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
                         unzip awscliv2.zip
-                        sudo ./aws/install
+                         ./aws/install
                         aws --version   
                         aws configure list
                         aws sts get-caller-identity
