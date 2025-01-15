@@ -9,8 +9,6 @@ pipeline {
 
     stages {
         stage('Docker') {
-            agent any
-
             steps {
                 sh 'ls -l'
                 sh 'docker build -t my-node -f DockerNode .'
