@@ -17,7 +17,6 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh 'aws --version'
                     sh 'aws configure list'
-                    sh 'nslookup sts.amazonaws.com'
                     sh 'aws sts get-caller-identity'
                 }
             }
