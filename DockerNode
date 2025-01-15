@@ -1,2 +1,2 @@
 FROM node:latest
-RUN npm install --save-dev netlify-cli
+RUN npm install --save-dev netlify-cli node-jq
