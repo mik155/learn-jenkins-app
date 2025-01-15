@@ -12,7 +12,7 @@ pipeline {
             agent any
 
             steps {
-                sh 'echo $PATH'
+                sh 'ls -l'
                 sh 'docker build -t my-node -f DockerNode .'
                 sh 'docker build -t my-pw -f DockerPw .'
             }
