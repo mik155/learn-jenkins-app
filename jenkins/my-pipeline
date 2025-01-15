@@ -9,7 +9,9 @@ pipeline {
 
     stages {
         stage('Docker') {
-            sh 'docker build -t my-node -f DockerNode .'
+            steps {
+                sh 'docker build -t my-node -f DockerNode .'
+            }
         }
 
         stage('Build') {
