@@ -9,7 +9,7 @@ pipeline {
             agent {
                 docker {
                     image 'amazon/aws-cli'
-                    args '--entrypoint=\'\''
+                    args '--entrypoint=\'\' --dns 8.8.8.8'
                     reuseNode true
                 }
             }
