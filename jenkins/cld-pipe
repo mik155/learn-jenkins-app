@@ -3,6 +3,9 @@ pipeline {
 
     stages {
         stage('Check AWS CLI') {
+            environment {
+                AWS_DEFAULT_REGION= credentials('aws-region')
+            }
             agent {
                 docker {
                     image 'amazon/aws-cli'
